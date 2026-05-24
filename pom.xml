@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.expertrise.automation</groupId>
+    <artifactId>expertrise-bdd-framework</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>ExpertRise BDD Automation Framework</name>
+    <description>Complete BDD framework: Selenium + Playwright + API (RestAssured) + Cucumber + Java 17</description>
+
+    <!-- ══════════════════════════════════════════════════════════
+         VERSION PROPERTIES — change version in one place only
+    ══════════════════════════════════════════════════════════ -->
+    <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- BDD -->
+        <cucumber.version>7.15.0</cucumber.version>
+
+        <!-- Test Frameworks -->
+        <junit.version>5.9.3</junit.version>
+        <testng.version>7.9.0</testng.version>
+
+        <!-- UI Automation -->
+        <selenium.version>4.21.0</selenium.version>
+        <webdrivermanager.version>5.8.0</webdrivermanager.version>
+        <playwright.version>1.44.0</playwright.version>
+
+        <!-- API Testing -->
+        <restassured.version>5.4.0</restassured.version>
+        <json-schema-validator.version>5.4.0</json-schema-validator.version>
+
+        <!-- POJO / Serialization -->
+        <jackson.version>2.17.0</jackson.version>
+
+        <!-- Reporting -->
+        <extentreports.version>5.0.9</extentreports.version>
+        <allure.version>2.27.0</allure.version>
+        <allure-cucumber.version>2.27.0</allure-cucumber.version>
+
+        <!-- Utilities -->
+        <javafaker.version>1.0.2</javafaker.version>
+        <poi.version>5.2.3</poi.version>
+
+        <!-- Logging -->
+        <log4j.version>2.20.0</log4j.version>
+
+        <!-- Assertions -->
+        <hamcrest.version>2.2</hamcrest.version>
+
+        <!-- Plugin Versions -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.4.0</maven-surefire-plugin.version>
+        <cucumber-reporting-plugin.version>5.8.0</cucumber-reporting-plugin.version>
+        <allure-maven-plugin.version>2.13.0</allure-maven-plugin.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- ══════════════════════════════════════════════
+             BDD — Cucumber
+        ══════════════════════════════════════════════ -->
+
+        <!-- Core Cucumber Java bindings — @Given @When @Then step definitions -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cucumber JUnit 5 engine — runs feature files via JUnit Platform -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cucumber TestNG integration — @CucumberOptions runner with TestNG -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             TEST FRAMEWORKS — JUnit 5 + TestNG
+        ══════════════════════════════════════════════ -->
+
+        <!-- JUnit Jupiter API — @Test, @BeforeEach, @AfterEach annotations -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Platform Suite — @Suite, @SelectClasspathResource for runner -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>1.9.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- TestNG — parallel execution, groups, @DataProvider, listeners -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             UI AUTOMATION — Selenium WebDriver
+        ══════════════════════════════════════════════ -->
+
+        <!-- Selenium Java — WebDriver, By locators, WebElement, Actions, Select -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <!-- WebDriverManager — auto-downloads ChromeDriver/GeckoDriver/EdgeDriver -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             UI AUTOMATION — Microsoft Playwright
+        ══════════════════════════════════════════════ -->
+
+        <!-- Playwright Java — Browser, Page, Locator for modern web automation -->
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>${playwright.version}</version>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             API TESTING — Rest Assured (EXISTING — unchanged)
+        ══════════════════════════════════════════════ -->
+
+        <!-- RestAssured — given/when/then DSL for REST API testing -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JSONPath — extract values from JSON responses -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${restassured.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JSON Schema Validator — validate API responses against JSON schema -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${json-schema-validator.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             POJO / SERIALIZATION — Jackson
+        ══════════════════════════════════════════════ -->
+
+        <!-- Jackson Databind — serialize/deserialize Java POJOs to/from JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Jackson Annotations — @JsonProperty, @JsonIgnore for POJO mapping -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Lombok — @Getter, @Setter, @Data, @Builder annotations -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             REPORTING — Extent + Allure
+        ══════════════════════════════════════════════ -->
+
+        <!-- Extent Reports — interactive HTML dashboard with charts, screenshots -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>${extentreports.version}</version>
+        </dependency>
+
+        <!-- Allure Cucumber7 JVM — @Step annotations + Allure report integration -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure-cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             ASSERTIONS — Hamcrest (EXISTING — unchanged)
+        ══════════════════════════════════════════════ -->
+
+        <!-- Hamcrest — readable matchers for RestAssured + JUnit assertions -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             DATA UTILITIES
+        ══════════════════════════════════════════════ -->
+
+        <!-- JavaFaker — generate realistic test data (names, emails, addresses) -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>${javafaker.version}</version>
+        </dependency>
+
+        <!-- Apache POI Core — Excel .xls read/write for data-driven testing -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- Apache POI OOXML — Excel .xlsx read/write for test data sheets -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- ══════════════════════════════════════════════
+             LOGGING — Log4j2
+        ══════════════════════════════════════════════ -->
+
+        <!-- Log4j2 API — Logger interface, log levels (INFO/DEBUG/ERROR/WARN) -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- Log4j2 Core — implementation; reads log4j2.xml configuration -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- SLF4J to Log4j2 bridge — routes Selenium/RestAssured logs through Log4j2 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- ══════════════════════════════════════════════
+                 COMPILER — Java 17 with Lombok support
+            ══════════════════════════════════════════════ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <arg>--add-modules</arg>
+                        <arg>jdk.compiler</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <!-- ══════════════════════════════════════════════
+                 SUREFIRE — runs tests via mvn test
+                 Uses junit-platform.properties for Cucumber config
+            ══════════════════════════════════════════════ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.1.2</version>
+               <!-- <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>-->
+                <executions>
+                    <execution>
+                        <id>integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- ══════════════════════════════════════════════
+                 CUCUMBER HTML REPORT — mvn verify
+                 Scans target/ for cucumber.json and generates dashboard
+            ══════════════════════════════════════════════ -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>${cucumber-reporting-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-cucumber-html-report</id>
+                        <phase>verify</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <projectName>ExpertRise BDD Automation</projectName>
+                            <outputDirectory>${project.build.directory}/cucumber-report</outputDirectory>
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <param>**/*.json</param>
+                            </jsonFiles>
+                            <checkBuildResult>false</checkBuildResult>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- ══════════════════════════════════════════════
+                 ALLURE REPORT — mvn allure:report
+            ══════════════════════════════════════════════ -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure-maven-plugin.version}</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- ══════════════════════════════════════════════
+                 CLEAN — remove logs/framework.log on build
+                 Ignore errors if file is locked (e.g. by another process)
+            ══════════════════════════════════════════════ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.build.directory}/logs</directory>
+                            <includes>
+                                <include>framework.log</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
