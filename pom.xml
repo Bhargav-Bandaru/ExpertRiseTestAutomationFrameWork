@@ -54,6 +54,8 @@
         <hamcrest.version>2.2</hamcrest.version>
 
         <!-- Plugin Versions -->
+        <!-- Lombok — 1.18.32 minimum for Java 17 module system compatibility -->
+        <lombok.version>1.18.32</lombok.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.4.0</maven-surefire-plugin.version>
         <cucumber-reporting-plugin.version>5.8.0</cucumber-reporting-plugin.version>
@@ -197,7 +199,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -282,6 +284,25 @@
             <version>${log4j.version}</version>
         </dependency>
 
+
+        <!-- DATABASE DRIVERS — required by DatabaseUtil -->
+
+        <!-- MySQL/MariaDB JDBC driver -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.3.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- H2 in-memory database — for local/CI testing without a real DB server -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.224</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -297,10 +318,29 @@
                 <configuration>
                     <release>${java.version}</release>
                     <encoding>UTF-8</encoding>
+                    <!-- JAVA 17 FIX: Opens internal javac packages to Lombok's LombokProcessor.
+                         Without these -J flags, Java 17 throws:
+                         IllegalAccessError: LombokProcessor cannot access JavacProcessingEnvironment
+                         The -J prefix passes each flag to the JVM running the javac process. -->
                     <compilerArgs>
-                        <arg>--add-modules</arg>
-                        <arg>jdk.compiler</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
                     </compilerArgs>
+                    <!-- Explicitly register Lombok as annotation processor so Maven
+                         always discovers it even on the module path -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <!-- ══════════════════════════════════════════════
