@@ -75,6 +75,14 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+<!--        provides the glue between Cucumber and TestNG.-->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- Cucumber JUnit 5 engine — runs feature files via JUnit Platform -->
         <dependency>
@@ -100,6 +108,21 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Jupiter Engine — runs your unit tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Parameterized Tests support -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -302,6 +325,12 @@
             <version>2.2.224</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -436,5 +465,57 @@
 
         </plugins>
     </build>
+
+    <!-- Profiles to choose test runner: JUnit Platform (RunCucumberTest) or TestNG (TestNGCucumberRunner) -->
+    <profiles>
+        <profile>
+            <id>junit</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <useModulePath>false</useModulePath>
+                            <!-- Run only the JUnit Cucumber runner class -->
+                            <includes>
+                                <include>**/RunCucumberTest.java</include>
+                            </includes>
+                            <!-- allow passing cucumber tags via -Dtag -->
+                            <systemPropertyVariables>
+                                <cucumber.filter.tags>${tag}</cucumber.filter.tags>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>testng</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <useModulePath>false</useModulePath>
+                            <!-- Run only the TestNG Cucumber runner class -->
+                            <includes>
+                                <include>**/TestNGCucumberRunner.java</include>
+                            </includes>
+                            <!-- forward tag property so runners can read it at runtime -->
+                            <systemPropertyVariables>
+                                <tag>${tag}</tag>
+                                <cucumber.filter.tags>${tag}</cucumber.filter.tags>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
