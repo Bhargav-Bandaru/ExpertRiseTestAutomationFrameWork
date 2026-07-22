@@ -382,6 +382,17 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
+                    <forkCount>0</forkCount>
+                    <includes>
+                        <include>**/RunCucumberTest.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
+                    </systemPropertyVariables>
+                    <!-- Treats filtered scenarios as not-run instead of skipped -->
+                    <excludes>
+                        <exclude/>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
